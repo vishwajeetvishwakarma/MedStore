@@ -1,0 +1,122 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Invoice</title>
+</style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="invoice-title">
+            <h2 class="display-1">Invoice</h2>
+            <h3 class="pull-right">Order # 12345</h3>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-xs-6">
+              <address>
+                <strong>Billed To:</strong><br />
+                {{name}}<br />
+                {{address}}
+                <br>
+                {{phone}}
+              </address>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6 text-right">
+              <address>
+                <strong>Order Date:</strong><br />
+                {{date}}<br /><br />
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><strong>Order summary</strong></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                  <thead class="bg-light">
+                    <tr>
+                      <th class="" scope="col">
+                        <strong class="text-small text-uppercase"
+                          >Medicine</strong
+                        >
+                      </th>
+                      <th class="" scope="col">
+                          <strong class="text-small text-uppercase"
+                          >Quantity</strong
+                          >
+                        </th>
+                        <th class="" scope="col">
+                          <strong class="text-small text-uppercase">Price</strong>
+                        </th>
+                      <th class="" scope="col">
+                        <strong class="text-small text-uppercase">Total</strong>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for cart_product in cart_products %}
+                    <tr>
+                      <th class="pl-0 " scope="row">
+                        {{cart_product.medicine.name}}
+                      </th>
+                      <th class="align-middle">
+                          <div
+                          class="border d-flex align-items-center justify-content-between px-3"
+                          >
+                          <span class="fw-bold">{{cart_product.quantity}}</span>
+                        </div>
+                    </th>
+                    <th class="align-middle ">
+                      <p class="mb-0 small">
+                        Rs. {{cart_product.medicine.price}}
+                      </p>
+                    </th>
+                      <th class="align-middle ">
+                        <p class="mb-0 small">
+                          Rs. {{cart_product.total_price|intcomma}}
+                        </p>
+                      </th>
+                    </tr>
+                    {% endfor %}
+                    <hr>
+                    <tr>
+                        <th class="thick-line"></th>
+                      <th class="thick-line"></th>
+                      <th class="thick-line text-center">
+                        <strong>Total</strong>
+                      </th>
+                      <th class="thick-line text-right">{{ total_amount }}</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

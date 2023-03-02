@@ -3,8 +3,8 @@
 {% load humanize %}
 
     {% block content %}
+    
       <div class="container">
-
         {% if cart_products %}
         <section class="py-5">
           <h2 class="h5 text-uppercase mb-4">Shopping cart</h2>
@@ -59,7 +59,6 @@
               <div class="bg-light px-4 py-3">
                 <div class="row align-items-center text-center">
                   <div class="col-md-6 mb-3 mb-md-0 text-md-left"><a class="btn btn-link p-0 text-dark btn-sm" href="{% url 'medicine' %}"><i class="fas fa-long-arrow-alt-left mr-2"> </i>Continue shopping</a></div>
-                  <div class="col-md-6 text-md-right"><a class="btn btn-outline-dark btn-sm" href="checkout.html">Procceed to checkout<i class="fas fa-long-arrow-alt-right ml-2"></i></a></div>
                 </div>
               </div>
             </div>
@@ -72,14 +71,22 @@
                     <li class="border-bottom my-2"></li>
                     <li class="d-flex align-items-center justify-content-between mb-4"><strong class="text-uppercase small font-weight-bold">Total</strong><span>₹{{total_amount|intcomma}}</span></li>
                     <li>
-
-                      {% comment %} <form action="#">
-                        <div class="form-group mb-0">
-                          <input class="form-control" type="text" placeholder="Enter your coupon">
-                          <button class="btn btn-dark btn-sm btn-block" type="submit"> <i class="fas fa-gift mr-2"></i>Apply coupon</button>
+                      <form action="{% url 'order' %}" id="order-form" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                          <label for="name" class="form-label">Customer Name</label>
+                          <input type="text" name="name" class="form-control" id="name" aria-describedby="emailHelp">
                         </div>
-                      </form> {% endcomment %}
-
+                        <div class="mb-3">
+                          <label for="address" class="form-label">Address</label>
+                          <input type="text" name="address" class="form-control" id="address">
+                        </div>
+                        <div class="mb-3">
+                          <label for="phone" class="form-label">Phone No. </label>
+                          <input type="text" name="phone" class="form-control" id="phone">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </form>
                     </li>
                   </ul>
                 </div>
@@ -88,6 +95,7 @@
 
           </div>
         </section>
+     
         
         {% else %}
 

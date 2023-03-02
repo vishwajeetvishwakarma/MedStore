@@ -1,13 +1,42 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView, TemplateView
 from .models import Customer, Dealer, Employee, Medicine,  Cart
-from .utils import SuperUserRequiredMixin
+from .utils import SuperUserRequiredMixin, render_to_pdf
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-
+from django.http import HttpResponse
 import decimal
 from django.contrib import messages
+from django.views import View
+import datetime
+
+
+def order_paid(request):
+    user = request.user
+    cart_products = Cart.objects.filter(user=user)
+    amount = decimal.Decimal(0)
+    cp = [p for p in Cart.objects.all() if p.user == user]
+    if cp:
+        for p in cp:
+            temp_amount = (p.quantity * p.medicine.price)
+            amount += temp_amount
+
+    if request.method == 'POST':
+        address = request.POST.get('address')
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        context = {
+            'address': address,
+            'name': name,
+            'phone': phone,
+            'cart_products': cart_products,
+            'amount': amount,
+            'total_amount': amount,
+            'date': datetime.date.today(),
+        }
+    pdf = render_to_pdf('pdf/invoice.html', context)
+    return HttpResponse(pdf, content_type='application/pdf')
 
 
 class HomeView(TemplateView):

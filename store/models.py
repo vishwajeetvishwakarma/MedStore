@@ -89,4 +89,14 @@ class Cart(models.Model):
     def total_price(self):
         return self.quantity * self.medicine.price
 
+class HistoryPaid(models.Model):
+    user = models.CharField(max_length=255)
+    address = models.TextField()
+    phone = models.CharField(max_length=12)
+    medicines = models.ForeignKey(Medicine, verbose_name=("Medicine"), on_delete=models.PROTECT)
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Created Date")
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Updated Date")
+
 
