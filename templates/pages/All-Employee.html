@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<h1>All Employee</h1>
+<ul>
+  <table class="table  table-hover table-borderless">
+    <thead>
+      <th scope="col">EmNo.</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Mobile No.</th>
+      <th scope="col">Actions</th>
+    </thead>
+    <tbody class="table-group-divider">
+      {% for employee in object_list %}
+      <tr>
+        <th scope="col">{{employee.id}}</th>
+        <td scope="col">{{employee.first_name}}</td>
+        <td scope="col">{{employee.last_name}}</td>
+        <td scope="col">{{employee.phone_no}}</td>
+        <td scope="col">
+          <a href="{{employee.get_absolute_url}}">Details</a>
+          <a href="{{employee.get_employee_delete}}">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</ul>
+
+{% endblock content %}
