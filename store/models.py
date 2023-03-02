@@ -55,7 +55,7 @@ class Medicine(models.Model):
     dealer = models.ForeignKey(Dealer, verbose_name=(
         "Delear Name"), on_delete=models.PROTECT)
     description = models.CharField(max_length=100)
-    price = models.CharField(max_length=30)
+    price = models.DecimalField(max_digits=10 , decimal_places=2)
     expiry_date = models.DateField()
     stock = models.IntegerField()
     created_at = models.DateField(auto_now_add=True)
@@ -87,6 +87,6 @@ class Cart(models.Model):
     # Creating Model Property to calculate Quantity x Price
     @property
     def total_price(self):
-        return self.quantity * self.Medicine.price
+        return self.quantity * self.medicine.price
 
 

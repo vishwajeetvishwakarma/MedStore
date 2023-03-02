@@ -27,6 +27,7 @@
         <td scope="col">
           <a href="{{medicine.get_absolute_url}}">Details</a>
           <a href="{{medicine.get_medicine_delete}}">Delete</a>
+          <a href="{% url 'add-to-cart' medicine.id %}">Add TO Cart</a>
         </td>
       </tr>
       {% endfor %}

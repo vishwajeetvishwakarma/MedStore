@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 urlpatterns = [
+    path("", view=views.HomeView.as_view(),
+         name='home'),
     path("employee/create/", view=views.CreateEmployeeView.as_view(),
          name='create-employee'),
     path("employee/update/<int:pk>/",
@@ -8,7 +10,8 @@ urlpatterns = [
     path("employee/delete/<int:pk>/",
          view=views.DeleteEmployeeView.as_view(), name='delete-employee'),
     path("employee/list/", view=views.ListAllEmployee.as_view(), name='employee'),
-    path("employee/list/<int:pk>/", view=views.DetailEmployeeView.as_view(), name='employee-details'),
+    path("employee/list/<int:pk>/",
+         view=views.DetailEmployeeView.as_view(), name='employee-details'),
     path("medicine/create/", view=views.CreateMedicineView.as_view(),
          name='create-medicine'),
     path("medicine/update/<int:pk>/",
@@ -16,6 +19,12 @@ urlpatterns = [
     path("medicine/delete/<int:pk>/",
          view=views.DeleteMedicineView.as_view(), name='delete-medicine'),
     path("medicine/list/", view=views.ListAllMedicine.as_view(), name='medicine'),
-    path("medicine/list/<int:pk>/", view=views.DetailMedicineView.as_view(), name='medicine-details'),
+    path("medicine/list/<int:pk>/",
+         view=views.DetailMedicineView.as_view(), name='medicine-details'),
     path('login/', views.MyLoginView.as_view(), name='login'),
+    path('add-to-cart/<int:id>/', views.add_to_cart, name="add-to-cart"),
+    path('remove-cart/<int:cart_id>/', views.remove_cart, name="remove-cart"),
+    path('plus-cart/<int:cart_id>/', views.plus_cart, name="plus-cart"),
+    path('minus-cart/<int:cart_id>/', views.minus_cart, name="minus-cart"),
+    path('cart/', views.cart, name="cart"),
 ]
