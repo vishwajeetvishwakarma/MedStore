@@ -1,6 +1,13 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
-<h1>All Employee</h1>
-<ul>
+<a class="btn btn-outline-light  mt-2 ms-2 " href="{% url 'home' %}">
+  <h1>
+    🔙
+  </h1>
+</a>
+<div class="container">
+<h1 class="">All Employee</h1>
+<hr>
+  <ul>
   <table class="table  table-hover table-borderless">
     <thead>
       <th scope="col">EmNo.</th>
@@ -17,13 +24,15 @@
         <td scope="col">{{employee.last_name}}</td>
         <td scope="col">{{employee.phone_no}}</td>
         <td scope="col">
-          <a href="{{employee.get_absolute_url}}">Details</a>
-          <a href="{{employee.get_employee_delete}}">Delete</a>
+          <a href="{{employee.get_absolute_url}}"><i class="fas fa-solid fa-info"></i></a>
+          <a href="{{employee.get_employee_delete}}"><i class="fas fa-solid fa-trash"></i></a>
+          
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </ul>
+</div>
 
 {% endblock content %}

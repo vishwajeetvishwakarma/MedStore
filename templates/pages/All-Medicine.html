@@ -1,6 +1,11 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<a class="btn btn-outline-light  mt-2 ms-2 " href="{% url 'home' %}">
+  <h1>
+    🔙
+  </h1>
+</a>
 <div class="container">
-<h1>All Medicine</h1>
+    <h1>All Medicine</h1>
   <hr>
   <form action="{% url 'medicine' %}" method="get" class="my-2">
     <input type="text" class="form-control" id="q" placeholder="Enter Medicine Name" name='q'>
@@ -24,10 +29,10 @@
           <td scope="col">{{medicine.price}}</td>
           <td scope="col">{{medicine.expiry_date}}</td>
           <td scope="col">{{medicine.stock}}</td>
-        <td scope="col">
-          <a href="{{medicine.get_absolute_url}}">Details</a>
-          <a href="{{medicine.get_medicine_delete}}">Delete</a>
-          <a href="{% url 'add-to-cart' medicine.id %}">Add TO Cart</a>
+        <td scope="col ">
+          <a href="{{medicine.get_absolute_url}}"><i class="fas fa-solid fa-info"></i></a>
+          <a href="{{medicine.get_medicine_delete}}" class="mx-2 text-danger"><i class="fas fa-solid fa-trash"></i></a>
+          <a href="{% url 'add-to-cart' medicine.id %}" class="text-success" ><i class="fa-sharp fa-solid fa-cart-shopping fas"></i></a>
         </td>
       </tr>
       {% endfor %}

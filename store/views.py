@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView, TemplateView
-from .models import Customer, Dealer, Employee, Medicine,  Cart
+from .models import Customer, Dealer, Employee, Medicine,  Cart, HistoryPaid
 from .utils import SuperUserRequiredMixin, render_to_pdf
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
@@ -10,6 +10,7 @@ import decimal
 from django.contrib import messages
 from django.views import View
 import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def order_paid(request):
@@ -35,6 +36,16 @@ def order_paid(request):
             'total_amount': amount,
             'date': datetime.date.today(),
         }
+        for c in cart_products:
+            h = HistoryPaid(
+                address=address,
+                user=name,
+                phone=phone,
+                medicines=c.medicine,
+            )
+            
+            h.save()
+            c.delete()
     pdf = render_to_pdf('pdf/invoice.html', context)
     return HttpResponse(pdf, content_type='application/pdf')
 
@@ -59,6 +70,11 @@ class CreateEmployeeView(SuperUserRequiredMixin, CreateView):
     model = Employee
     fields = '__all__'
     template_name = 'pages/CreateView.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Add New Employess"
+        return context
 
     def get_success_url(self):
         return reverse_lazy('employee')
@@ -92,13 +108,18 @@ class ListAllEmployee(SuperUserRequiredMixin, ListView):
     template_name = 'pages/All-Employee.html'
 
 
-class CreateMedicineView(SuperUserRequiredMixin, CreateView):
+class CreateMedicineView(LoginRequiredMixin, CreateView):
     model = Medicine
     fields = '__all__'
     template_name = 'pages/CreateView.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Add New Medicine"
+        return context
 
-class DeleteMedicineView(SuperUserRequiredMixin, DeleteView):
+
+class DeleteMedicineView(LoginRequiredMixin, DeleteView):
     model = Medicine
     template_name = 'pages/DeleteView.html'
 
@@ -106,7 +127,7 @@ class DeleteMedicineView(SuperUserRequiredMixin, DeleteView):
         return reverse_lazy('medicine')
 
 
-class UpdateMedicineView(SuperUserRequiredMixin, UpdateView):
+class UpdateMedicineView(LoginRequiredMixin, UpdateView):
     model = Medicine
     fields = '__all__'
     template_name = 'pages/CreateView.html'
@@ -115,12 +136,12 @@ class UpdateMedicineView(SuperUserRequiredMixin, UpdateView):
         return reverse_lazy('medicine')
 
 
-class DetailMedicineView(SuperUserRequiredMixin, DetailView):
+class DetailMedicineView(LoginRequiredMixin, DetailView):
     model = Medicine
     template_name = 'pages/DetailsView.html'
 
 
-class ListAllMedicine(SuperUserRequiredMixin, ListView):
+class ListAllMedicine(LoginRequiredMixin, ListView):
     model = Medicine
     paginate_by = 10
     template_name = 'pages/All-Medicine.html'

@@ -33,20 +33,12 @@ class Employee(models.Model):
 
 
 class Customer(models.Model):
-    fname = models.CharField(max_length=30)
-    lname = models.CharField(max_length=30)
+    name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
-    phn_no = models.BigIntegerField()
-    email = models.CharField(max_length=50)
+    phone = models.BigIntegerField()
 
     def __str__(self):
-        return self.email
-
-    def get_absolute_url(self):
-        return reverse("customer-details", kwargs={"pk": self.pk})
-
-    def get_customer_delete(self):
-        return reverse("delete-customer", kwargs={"pk": self.pk})
+        return str(f"{self.name} - {self.phone}")
 
 
 class Medicine(models.Model):
@@ -55,7 +47,7 @@ class Medicine(models.Model):
     dealer = models.ForeignKey(Dealer, verbose_name=(
         "Delear Name"), on_delete=models.PROTECT)
     description = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10 , decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     expiry_date = models.DateField()
     stock = models.IntegerField()
     created_at = models.DateField(auto_now_add=True)
@@ -89,14 +81,18 @@ class Cart(models.Model):
     def total_price(self):
         return self.quantity * self.medicine.price
 
+
 class HistoryPaid(models.Model):
     user = models.CharField(max_length=255)
     address = models.TextField()
     phone = models.CharField(max_length=12)
-    medicines = models.ForeignKey(Medicine, verbose_name=("Medicine"), on_delete=models.PROTECT)
+    medicines = models.ForeignKey(Medicine, verbose_name=(
+        "Medicine"), on_delete=models.PROTECT)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Created Date")
     updated_at = models.DateTimeField(
         auto_now=True, verbose_name="Updated Date")
 
-
+    def __str__(self) -> str:
+        return str(self.user)
+    
