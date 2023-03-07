@@ -25,6 +25,12 @@
         <ul>
             <li><a href="{% url 'medicine' %}">Medicine</a></li>
             <li><a href="{% url 'employee' %}">Employee</a></li>
+            <li><a href="{% url 'customer' %}">Customer</a></li>
+            {% if request.user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">LogOut</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">LogIn</a></li>
+            {% endif %}
         </ul>
     </nav>
 

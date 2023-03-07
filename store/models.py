@@ -39,6 +39,9 @@ class Customer(models.Model):
 
     def __str__(self):
         return str(f"{self.name} - {self.phone}")
+    
+    def get_customer_order(self):
+        return reverse("customer-order", kwargs={"pk": self.phone})
 
 
 class Medicine(models.Model):
@@ -88,6 +91,7 @@ class HistoryPaid(models.Model):
     phone = models.CharField(max_length=12)
     medicines = models.ForeignKey(Medicine, verbose_name=(
         "Medicine"), on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField(verbose_name="Quantity")
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Created Date")
     updated_at = models.DateTimeField(

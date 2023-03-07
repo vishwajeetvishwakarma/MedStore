@@ -1,11 +1,14 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
-<a class="btn btn-outline-light  mt-2 ms-2 " href="{% url 'home' %}">
-  <h1>
-    🔙
-  </h1>
-</a>
 <div class="container">
-    <h1>All Medicine</h1>
+  <div class="d-flex align-items-end">
+      <a class="btn btn-outline-light  mt-2 ms-2 " href="{% url 'home' %}">
+        <h2>
+          🔙
+        </h2>
+      </a>
+
+      <h1 class="">All Medicine</h1>
+  </div>
   <hr>
   <form action="{% url 'medicine' %}" method="get" class="my-2">
     <input type="text" class="form-control" id="q" placeholder="Enter Medicine Name" name='q'>

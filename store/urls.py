@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth.views import LogoutView
 from . import views
 urlpatterns = [
     path("", view=views.HomeView.as_view(),
@@ -12,6 +13,8 @@ urlpatterns = [
     path("employee/delete/<int:pk>/",
          view=views.DeleteEmployeeView.as_view(), name='delete-employee'),
     path("employee/list/", view=views.ListAllEmployee.as_view(), name='employee'),
+    path("customer/list/", view=views.ListAllCustomer.as_view(), name='customer'),
+    path("customer/list/<int:pk>", view=views.ListAllCustomerOrder.as_view(), name='customer-order'),
     path("employee/list/<int:pk>/",
          view=views.DetailEmployeeView.as_view(), name='employee-details'),
     path("medicine/create/", view=views.CreateMedicineView.as_view(),
@@ -23,10 +26,11 @@ urlpatterns = [
     path("medicine/list/", view=views.ListAllMedicine.as_view(), name='medicine'),
     path("medicine/list/<int:pk>/",
          view=views.DetailMedicineView.as_view(), name='medicine-details'),
-    path('login/', views.MyLoginView.as_view(), name='login'),
     path('add-to-cart/<int:id>/', views.add_to_cart, name="add-to-cart"),
     path('remove-cart/<int:cart_id>/', views.remove_cart, name="remove-cart"),
     path('plus-cart/<int:cart_id>/', views.plus_cart, name="plus-cart"),
     path('minus-cart/<int:cart_id>/', views.minus_cart, name="minus-cart"),
     path('cart/', views.cart, name="cart"),
+    path('login/', views.MyLoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(template_name="pages/logout.html"), name='logout'),
 ]

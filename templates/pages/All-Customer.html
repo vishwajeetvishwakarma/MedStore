@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="container">
+    <div class="d-flex align-items-end">
+        <a class="btn btn-outline-light  mt-2 ms-2 " href="{% url 'home' %}">
+          <h2>
+            🔙
+          </h2>
+        </a>
+
+        <h1 class="">All Customer</h1>
+    </div>
+<hr>
+<form action="{% url 'customer' %}" method="get" class="my-2">
+    <input type="text" class="form-control" id="q" placeholder="Enter Medicine Name" name='q'>
+  </form>
+<hr>
+  <ul>
+  <table class="table  table-hover table-borderless">
+    <thead>
+      <th scope="col">No.</th>
+      <th scope="col">Name</th>
+      <th scope="col">Mobile No.</th>
+      <th scope="col">Address</th>
+      <th scope="col">Details</th>
+    </thead>
+    <tbody class="table-group-divider">
+      {% for customer in object_list %}
+      <tr>
+        <th scope="col">{{customer.id}}</th>
+        <td scope="col">{{customer.name}}</td>
+        <td scope="col">{{customer.address}}</td>
+        <td scope="col">{{customer.phone}}</td>
+        <td scope="col"><a href="{{customer.get_customer_order}}"><i class="fas fa-solid fa-info"></i></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</ul>
+</div>
+
+{% endblock content %}

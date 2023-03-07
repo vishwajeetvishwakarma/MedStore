@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<a class="btn btn-outline-light  mt-2 ms-2 " href="{% url 'home' %}">
+  <h2>
+    🔙
+  </h2>
+</a>
+<div class="container">
+<h1 class="">Customer - {{object_list.0.user}}</h1>
+<hr>
+  <ul>
+  <table class="table  table-hover table-borderless">
+    <thead>
+      <th scope="col">No.</th>
+      <th scope="col">Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Date</th>
+    </thead>
+    <tbody class="table-group-divider">
+      {% for customer in object_list %}
+      <tr>
+        <th scope="col">{{forloop.counter}}</th>
+        <td scope="col">{{customer.medicines}}</td>
+        <td scope="col">{{customer.quantity}}</td>
+        <td scope="col">{{customer.created_at}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</ul>
+</div>
+
+{% endblock content %}

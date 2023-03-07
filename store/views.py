@@ -36,15 +36,26 @@ def order_paid(request):
             'total_amount': amount,
             'date': datetime.date.today(),
         }
+        try:
+            is_customer_already = Customer.objects.get(phone=phone)
+        except Customer.DoesNotExist:
+            c = Customer(
+                address=address,
+                name=name,
+                phone=phone,
+            )
+            c.save()
+
         for c in cart_products:
             h = HistoryPaid(
                 address=address,
                 user=name,
                 phone=phone,
                 medicines=c.medicine,
+                quantity=c.quantity
             )
-            
             h.save()
+
             c.delete()
     pdf = render_to_pdf('pdf/invoice.html', context)
     return HttpResponse(pdf, content_type='application/pdf')
@@ -57,9 +68,6 @@ class HomeView(TemplateView):
 class MyLoginView(LoginView):
     redirect_authenticated_user = True
     template_name = 'pages/Login.html'
-
-    def get_success_url(self):
-        return reverse_lazy('employee')
 
     def form_invalid(self, form):
         messages.error(self.request, 'Invalid username or password')
@@ -106,6 +114,28 @@ class ListAllEmployee(SuperUserRequiredMixin, ListView):
     model = Employee
     paginate_by = 10
     template_name = 'pages/All-Employee.html'
+
+
+class ListAllCustomer(LoginRequiredMixin, ListView):
+    model = Customer
+    paginate_by = 10
+    template_name = 'pages/All-Customer.html'
+
+    def get_queryset(self):
+        q = self.request.GET.get('q', None)
+        object_list = self.model.objects.all()
+        if q:
+            object_list = object_list.filter(name__icontains=q)
+        return object_list
+
+
+class ListAllCustomerOrder(LoginRequiredMixin, ListView):
+    model = HistoryPaid
+    paginate_by = 10
+    template_name = 'pages/All-Order-Customer.html'
+
+    def get_queryset(self):
+        return HistoryPaid.objects.filter(phone=self.kwargs['pk'])
 
 
 class CreateMedicineView(LoginRequiredMixin, CreateView):
