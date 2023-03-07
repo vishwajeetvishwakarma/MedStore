@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="container mt-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8">
+      <div class="card px-5 py-4 pb-5" id="form1">
+        <div class="row">
+          <h4 class="col-3">Name :</h4>
+          <h4 class=" col-9">{{object.name}}</h4>
+        </div>
+        <div class="row">
+          <h4 class="col-3">Dealer Name :</h4>
+          <h4 class=" col-9">{{object.dealer.dname}}</h4>
+        </div>
+        <div class="row">
+          <h4 class="col-3">Description :</h4>
+          <h4 class=" col-9">{{object.description}}</h4>
+        </div>
+        <div class="row">
+          <h4 class="col-3">Price :</h4>
+          <h4 class=" col-9">{{object.price}}</h4>
+        </div>
+        <div class="row">
+          <h4 class="col-3">Expairy Date :</h4>
+          <h4 class=" col-9">{{object.expiry_date}}</h4>
+        </div>
+        <div class="row">
+          <h4 class="col-3">Stock :</h4>
+          <h4 class=" col-9">{{object.stock}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -17,7 +17,7 @@ class Employee(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     address = models.CharField(max_length=100)
-    img = models.ImageField(upload_to="employee", null=True, blank=True)
+    img = models.ImageField(upload_to="employee/", null=True, blank=True)
     email = models.CharField(max_length=50)
     salary = models.CharField(max_length=20)
     phone_no = models.BigIntegerField(unique=True)
@@ -39,7 +39,7 @@ class Customer(models.Model):
 
     def __str__(self):
         return str(f"{self.name} - {self.phone}")
-    
+
     def get_customer_order(self):
         return reverse("customer-order", kwargs={"pk": self.phone})
 
@@ -99,4 +99,3 @@ class HistoryPaid(models.Model):
 
     def __str__(self) -> str:
         return str(self.user)
-    

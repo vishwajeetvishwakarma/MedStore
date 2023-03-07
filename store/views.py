@@ -107,7 +107,7 @@ class DeleteEmployeeView(SuperUserRequiredMixin, DeleteView):
 
 class DetailEmployeeView(SuperUserRequiredMixin, DetailView):
     model = Employee
-    template_name = 'pages/DetailsView.html'
+    template_name = 'pages/EmployeeDetails.html'
 
 
 class ListAllEmployee(SuperUserRequiredMixin, ListView):
@@ -168,7 +168,7 @@ class UpdateMedicineView(LoginRequiredMixin, UpdateView):
 
 class DetailMedicineView(LoginRequiredMixin, DetailView):
     model = Medicine
-    template_name = 'pages/DetailsView.html'
+    template_name = 'pages/MedicineDetails.html'
 
 
 class ListAllMedicine(LoginRequiredMixin, ListView):
